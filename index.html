@@ -1,0 +1,895 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeHer - Women Safety & Empowerment Portal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #9c27b0;
+            padding: 1rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.8rem;
+        }
+
+        .emergency-button {
+            background-color: #ff4081;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .main-content {
+            display: flex;
+            padding: 2rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .section {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #9c27b0;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .helpline-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .helpline-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .helpline-card p {
+            color: #666;
+        }
+
+        .phone-number {
+            font-size: 1.2rem;
+            color: #9c27b0;
+            font-weight: bold;
+        }
+
+        #safety-map {
+            height: 400px;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .map-legend {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .safe { background-color: #4CAF50; }
+        .moderate { background-color: #FFC107; }
+        .caution { background-color: #f44336; }
+
+        /* Quiz Platform Styles */
+        .quiz-section {
+            flex: 2;
+            min-width: 600px;
+        }
+
+        .quiz-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-header select {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #9c27b0;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .option-button {
+            padding: 1rem;
+            border: 2px solid #9c27b0;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .option-button:hover {
+            background: #f3e5f5;
+        }
+
+        .option-button.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .option-button.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .quiz-button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            background: #9c27b0;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .quiz-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .score-display {
+            font-size: 1.2rem;
+            color: #9c27b0;
+            font-weight: bold;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #e8f5e9;
+            color: #2e7d32;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>SafeHer - Women Safety & Empowerment Portal</h1>
+        <button class="emergency-button">🆘 EMERGENCY HELPLINE</button>
+    </nav>
+
+    <div class="main-content">
+        <div class="section">
+            <h2>24/7 Helpline Directory</h2>
+            <div class="helpline-card">
+                <h3>Women's Emergency Helpline</h3>
+                <p class="phone-number">1091</p>
+                <p>National 24/7 helpline for women in distress</p>
+            </div>
+            <div class="helpline-card">
+                <h3>Police Emergency</h3>
+                <p class="phone-number">100</p>
+                <p>Emergency police assistance</p>
+            </div>
+            <div class="helpline-card">
+                <h3>Domestic Violence Helpline</h3>
+                <p class="phone-number">181</p>
+                <p>24/7 support for domestic violence victims</p>
+            </div>
+            <div class="helpline-card">
+                <h3>Medical Emergency</h3>
+                <p class="phone-number">108</p>
+                <p>Ambulance and medical assistance</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Safety Map</h2>
+            <div id="safety-map"></div>
+            <div class="map-legend">
+                <div class="legend-item">
+                    <div class="legend-color safe"></div>
+                    <span>Safe Area</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color moderate"></div>
+                    <span>Moderate Risk</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color caution"></div>
+                    <span>Exercise Caution</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section quiz-section">
+            <h2>Safety Knowledge Quiz</h2>
+            <div class="quiz-header">
+                <select id="quiz-category">
+                    <option value="personal-safety">Personal Safety</option>
+                    <option value="emergency-response">Emergency Response</option>
+                    <option value="self-defense">Self Defense</option>
+                </select>
+                <div class="score-display">Score: <span id="score">0</span></div>
+            </div>
+            <div id="quiz-container" class="quiz-container">
+                <div class="question-card">
+                    <h3 id="question-text"></h3>
+                    <div class="options" id="options-container"></div>
+                </div>
+                <div id="feedback" class="feedback"></div>
+                <div class="quiz-controls">
+                    <button id="prev-button" class="quiz-button" disabled>Previous</button>
+                    <button id="next-button" class="quiz-button">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the map
+        const map = L.map('safety-map').setView([28.6139, 77.2090], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Sample safety zones
+        const safeZones = [
+            { coord: [28.6139, 77.2090], radius: 1000, risk: 'safe' },
+            { coord: [28.6239, 77.2190], radius: 800, risk: 'moderate' },
+            { coord: [28.6039, 77.1990], radius: 600, risk: 'caution' }
+        ];
+
+        safeZones.forEach(zone => {
+            const color = zone.risk === 'safe' ? '#4CAF50' : 
+                         zone.risk === 'moderate' ? '#FFC107' : '#f44336';
+            
+            L.circle(zone.coord, {
+                radius: zone.radius,
+                color: color,
+                fillColor: color,
+                fillOpacity: 0.2
+            }).addTo(map);
+        });
+
+        // Quiz functionality
+        const quizData = {
+    'personal-safety': [
+        {
+            question: "What should you do if you feel someone is following you?",
+            options: [
+                "Keep walking normally and call a friend or emergency number",
+                "Run immediately",
+                "Confront the person",
+                "Hide in a dark alley"
+            ],
+            correct: 0,
+            feedback: "Stay calm and seek help. Moving to a crowded area while calling for assistance is the safest approach."
+        },
+        {
+            question: "What’s the best way to avoid distractions when walking alone at night?",
+            options: [
+                "Wear headphones and listen to music",
+                "Focus on surroundings and avoid phone usage",
+                "Look down at the ground",
+                "Walk slowly and casually"
+            ],
+            correct: 1,
+            feedback: "Staying aware of your surroundings is key to personal safety."
+        },
+        {
+            question: "If a stranger asks you for help late at night, what should you do?",
+            options: [
+                "Help them immediately",
+                "Ignore them",
+                "Assess the situation and keep a safe distance",
+                "Invite them to talk in a secluded area"
+            ],
+            correct: 2,
+            feedback: "Help if possible, but keep a safe distance and assess the situation first."
+        },
+        {
+            question: "What’s a good response if someone harasses you in public?",
+            options: [
+                "Confront them aggressively",
+                "Stay silent",
+                "Ignore them and walk away quickly",
+                "Call for help loudly if needed"
+            ],
+            correct: 3,
+            feedback: "Calling for help or drawing attention to yourself can deter harassment."
+        },
+        {
+            question: "What item can be used for self-defense in an emergency?",
+            options: [
+                "Phone charger",
+                "Pen or keys",
+                "Wallet",
+                "Headphones"
+            ],
+            correct: 1,
+            feedback: "Keys or a pen can be used for self-defense when necessary."
+        },
+        {
+            question: "If someone approaches you aggressively, what’s your first step?",
+            options: [
+                "Confront them",
+                "Run away immediately",
+                "Scream for help",
+                "Move back and create distance"
+            ],
+            correct: 3,
+            feedback: "Creating distance and assessing the situation is crucial."
+        },
+        {
+            question: "Which action is recommended for safer taxi or ride-sharing?",
+            options: [
+                "Sit in the front seat",
+                "Share your location with a friend",
+                "Chat with the driver",
+                "Keep the window down"
+            ],
+            correct: 1,
+            feedback: "Sharing your location with a friend is a good safety measure."
+        },
+        {
+            question: "How should you react if a stranger grabs you?",
+            options: [
+                "Scream and try to attract attention",
+                "Stay silent",
+                "Negotiate with them",
+                "Pretend to faint"
+            ],
+            correct: 0,
+            feedback: "Drawing attention to yourself can often make the attacker retreat."
+        },
+        {
+            question: "What should you do if you’re lost in an unfamiliar area?",
+            options: [
+                "Use your phone to navigate or call for help",
+                "Walk in random directions",
+                "Ask a stranger for directions",
+                "Stay where you are"
+            ],
+            correct: 0,
+            feedback: "Using your phone to navigate or call a friend is the safest option."
+        },
+        {
+            question: "When traveling alone, what’s a good safety tip?",
+            options: [
+                "Post your location on social media",
+                "Tell someone your itinerary",
+                "Avoid talking to anyone",
+                "Travel without a phone"
+            ],
+            correct: 1,
+            feedback: "Letting someone know your plans can add a layer of safety."
+        },
+        {
+            question: "What’s the safest way to use an ATM at night?",
+            options: [
+                "Go alone and quickly",
+                "Bring a friend and stay alert",
+                "Withdraw a large sum",
+                "Use an ATM in a secluded area"
+            ],
+            correct: 1,
+            feedback: "Having a friend and staying alert is the safest approach."
+        },
+        {
+            question: "What should you avoid doing on public transport?",
+            options: [
+                "Avoid sleeping or being distracted",
+                "Read a book quietly",
+                "Avoid eye contact",
+                "Sit by the window"
+            ],
+            correct: 0,
+            feedback: "Staying alert and aware of your surroundings is crucial."
+        },
+        {
+            question: "If someone makes you uncomfortable at a party, you should:",
+            options: [
+                "Ignore them",
+                "Leave the area and inform a friend",
+                "Tell them to stop loudly",
+                "Stand your ground silently"
+            ],
+            correct: 1,
+            feedback: "Moving to a safer area and informing someone is a good choice."
+        },
+        {
+            question: "What should you do if you get separated from friends in a crowded area?",
+            options: [
+                "Call or text them immediately",
+                "Panic",
+                "Wait for them to find you",
+                "Leave the area"
+            ],
+            correct: 0,
+            feedback: "Stay calm and use your phone to reconnect."
+        },
+        {
+            question: "In a crowded area, where is the safest place to keep your phone?",
+            options: [
+                "Back pocket",
+                "In a secure bag close to your body",
+                "In your hand",
+                "Jacket pocket"
+            ],
+            correct: 1,
+            feedback: "Keeping valuables in a secure bag reduces theft risk."
+        },
+        {
+            question: "What should you do if you’re receiving unwanted attention?",
+            options: [
+                "Ignore it completely",
+                "Call for help if you feel unsafe",
+                "Engage with them",
+                "Make a scene"
+            ],
+            correct: 1,
+            feedback: "Call for help if you feel uncomfortable or threatened."
+        },
+        {
+            question: "If someone you don’t know insists on giving you a ride, you should:",
+            options: [
+                "Politely refuse and find alternative transportation",
+                "Accept it to be polite",
+                "Insist on riding in the front seat",
+                "Ask them questions first"
+            ],
+            correct: 0,
+            feedback: "It’s best to politely refuse and use a trusted transport option."
+        },
+        {
+            question: "If a stranger tries to engage in conversation, you should:",
+            options: [
+                "Answer briefly and move on",
+                "Engage fully",
+                "Invite them to talk more",
+                "Ignore them completely"
+            ],
+            correct: 0,
+            feedback: "Respond briefly if needed, but keep moving."
+        },
+        {
+            question: "When walking to your car at night, it’s best to:",
+            options: [
+                "Walk confidently and check surroundings",
+                "Run to the car",
+                "Fumble for your keys at the car",
+                "Talk on your phone"
+            ],
+            correct: 0,
+            feedback: "Confidence and awareness can deter potential threats."
+        },
+        {
+            question: "If you suspect someone is tampering with your drink at a social gathering, you should:",
+            options: [
+                "Drink it to be sure",
+                "Ignore it",
+                "Discard it and get a new one",
+                "Ask a friend to taste it"
+            ],
+            correct: 2,
+            feedback: "It’s safest to discard any suspicious drink and get a new one."
+        },
+        {
+            question: "What is a simple safety measure for online interactions?",
+            options: [
+                "Share personal information freely",
+                "Avoid sharing personal details",
+                "Post real-time updates of your location",
+                "Friend everyone who requests it"
+            ],
+            correct: 1,
+            feedback: "Avoid sharing personal details to protect your privacy."
+        }
+    ],
+    'emergency-response': [
+        {
+            question: "What is the first thing you should do in case of an emergency?",
+            options: [
+                "Post on social media",
+                "Call emergency services (100/1091)",
+                "Text a friend",
+                "Search online for help"
+            ],
+            correct: 1,
+            feedback: "Always call emergency services first. They are trained to respond quickly and appropriately."
+        },
+        {
+            question: "If you witness a fire, what should you do first?",
+            options: [
+                "Try to put it out yourself",
+                "Call the fire department (101)",
+                "Record it on your phone",
+                "Run away immediately"
+            ],
+            correct: 1,
+            feedback: "Calling the fire department ensures trained professionals can handle the fire safely."
+        },
+        {
+            question: "If someone is unresponsive, what should you check first?",
+            options: [
+                "Their ID",
+                "Their breathing and pulse",
+                "Their phone for contacts",
+                "Their pockets"
+            ],
+            correct: 1,
+            feedback: "Checking if they are breathing and have a pulse will help you determine the next steps, like CPR or calling for help."
+        },
+        {
+            question: "In a case of suspected poisoning, what should you do?",
+            options: [
+                "Try to make the person vomit",
+                "Give them water",
+                "Call emergency services (108 or 102)",
+                "Wait to see if they improve"
+            ],
+            correct: 2,
+            feedback: "Call emergency services immediately. Professionals can guide you on the right actions to take."
+        },
+        {
+            question: "What should you avoid doing if you suspect someone has a broken bone?",
+            options: [
+                "Move the person to make them comfortable",
+                "Call for medical help (102)",
+                "Keep the person still",
+                "Support the injury with a cloth"
+            ],
+            correct: 0,
+            feedback: "Do not move someone with a suspected broken bone, as it could worsen the injury."
+        },
+        {
+            question: "If someone is having a severe allergic reaction, what should you do?",
+            options: [
+                "Offer water",
+                "Give them an antihistamine",
+                "Call emergency services and check if they have an EpiPen",
+                "Wait to see if it improves"
+            ],
+            correct: 2,
+            feedback: "Call for help and look for an EpiPen. Severe allergic reactions require immediate attention."
+        },
+        {
+            question: "If you find yourself in an earthquake, what’s the best immediate action?",
+            options: [
+                "Run outside immediately",
+                "Drop, cover, and hold on under sturdy furniture",
+                "Stand near a window",
+                "Call someone for advice"
+            ],
+            correct: 1,
+            feedback: "Taking cover under sturdy furniture is safest during an earthquake."
+        },
+        {
+            question: "What should you do if you witness a car accident?",
+            options: [
+                "Take photos of the scene",
+                "Help the injured person out of the car",
+                "Call emergency services (108 or 102)",
+                "Wait for someone else to help"
+            ],
+            correct: 2,
+            feedback: "Calling emergency services is crucial so trained responders can assist."
+        },
+        {
+            question: "If someone is bleeding heavily, what's the first thing you should do?",
+            options: [
+                "Try to clean the wound",
+                "Apply pressure to the wound",
+                "Ask if they need help",
+                "Give them a drink"
+            ],
+            correct: 1,
+            feedback: "Applying pressure to the wound can help control bleeding until medical help arrives."
+        },
+        {
+            question: "What is the best way to assist someone who is choking?",
+            options: [
+                "Give them water",
+                "Perform the Heimlich maneuver if trained",
+                "Tell them to sit down",
+                "Wait to see if it stops"
+            ],
+            correct: 1,
+            feedback: "The Heimlich maneuver is a common way to assist someone choking, but only if you are trained."
+        },
+        {
+            question: "What should you do if a person is having a seizure?",
+            options: [
+                "Try to hold them still",
+                "Place something soft under their head and call for help",
+                "Offer them water",
+                "Yell for help and leave the area"
+            ],
+            correct: 1,
+            feedback: "Place something soft under their head, remove nearby dangers, and call for medical assistance."
+        }
+    ],
+            'self-defense': [
+        {
+            question: "Which is the most effective self-defense principle?",
+            options: [
+                "Always fight back",
+                "Run whenever possible",
+                "Awareness and prevention",
+                "Learn complex martial arts"
+            ],
+            correct: 2,
+            feedback: "The best self-defense is avoiding dangerous situations through awareness and prevention."
+        },
+        {
+            question: "What is the best first move in a self-defense situation?",
+            options: [
+                "Assess the situation and try to escape",
+                "Attack immediately",
+                "Yell without taking any action",
+                "Ignore the threat"
+            ],
+            correct: 0,
+            feedback: "Always assess the situation first and look for the safest way to escape."
+        },
+        {
+            question: "If someone grabs you, what is a common self-defense strategy?",
+            options: [
+                "Freeze and hope they let go",
+                "Pull back as hard as possible",
+                "Strike vulnerable areas like eyes or groin",
+                "Ignore them"
+            ],
+            correct: 2,
+            feedback: "Striking vulnerable areas can be an effective way to escape a grip."
+        },
+        {
+            question: "What’s a simple way to carry items that could help in self-defense?",
+            options: [
+                "Hold items in both hands",
+                "Keep one hand free to defend or use a phone",
+                "Carry items in a loose bag",
+                "Place items in a back pocket"
+            ],
+            correct: 1,
+            feedback: "Keeping one hand free allows you to react quickly if needed."
+        },
+        {
+            question: "If someone is following you, which of the following is a good option?",
+            options: [
+                "Confront them immediately",
+                "Ignore them",
+                "Move to a well-lit, crowded area and seek help",
+                "Run away without looking back"
+            ],
+            correct: 2,
+            feedback: "Moving to a well-lit, populated area and seeking help is often the safest choice."
+        },
+        {
+            question: "When should you yell or make noise in a self-defense situation?",
+            options: [
+                "Only if you’re sure someone can hear",
+                "If you feel threatened and need attention",
+                "After the threat is over",
+                "Never, as it might make the situation worse"
+            ],
+            correct: 1,
+            feedback: "Making noise can attract attention and deter potential attackers."
+        },
+        {
+            question: "Which of these areas is typically a vulnerable spot on an attacker?",
+            options: [
+                "Shoulders",
+                "Eyes",
+                "Hands",
+                "Feet"
+            ],
+            correct: 1,
+            feedback: "Targeting vulnerable areas, like the eyes, can be an effective way to defend yourself."
+        },
+        {
+            question: "What is the primary purpose of learning self-defense techniques?",
+            options: [
+                "To be able to fight anyone",
+                "To increase confidence and awareness",
+                "To intimidate others",
+                "To become aggressive"
+            ],
+            correct: 1,
+            feedback: "Self-defense is about boosting confidence and awareness, not aggression."
+        },
+        {
+            question: "If grabbed from behind, what should you do first?",
+            options: [
+                "Try to twist and turn away",
+                "Kick backwards towards their legs",
+                "Stand still and wait",
+                "Start yelling for help"
+            ],
+            correct: 1,
+            feedback: "Kicking backward or stomping on their feet can help loosen their grip."
+        },
+        {
+            question: "What’s a simple, everyday object you could use in self-defense?",
+            options: [
+                "Notebook",
+                "Umbrella or keys",
+                "Plastic bag",
+                "Sunglasses"
+            ],
+            correct: 1,
+            feedback: "Items like an umbrella or keys can be used to defend yourself if needed."
+        },
+        {
+            question: "In which situation is it best to avoid self-defense actions?",
+            options: [
+                "When you’re alone",
+                "If complying can help avoid harm",
+                "In a crowded area",
+                "If the attacker is unarmed"
+            ],
+            correct: 1,
+            feedback: "In some cases, compliance can be the safest option. Use judgment to assess the situation."
+        }
+    ]
+        };
+
+        let currentCategory = 'personal-safety';
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const question = quizData[currentCategory][currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+
+            document.getElementById('prev-button').disabled = currentQuestion === 0;
+            document.getElementById('next-button').disabled = currentQuestion === quizData[currentCategory].length - 1;
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedback').textContent = '';
+        }
+
+        function checkAnswer(selectedIndex) {
+            const question = quizData[currentCategory][currentQuestion];
+            const options = document.querySelectorAll('.option-button');
+            
+            options.forEach(option => option.disabled = true);
+            
+            if (selectedIndex === question.correct) {
+                options[selectedIndex].classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+                document.getElementById('feedback').className = 'feedback correct';
+            } else {
+                options[selectedIndex].classList.add('incorrect');
+                options[question.correct].classList.add('correct');
+                document.getElementById('feedback').className = 'feedback incorrect';
+            }
+            
+            document.getElementById('feedback').textContent = question.feedback;
+        }
+
+        document.getElementById('quiz-category').onchange = (e) => {
+            currentCategory = e.target.value;
+            currentQuestion = 0;
+            loadQuestion();
+        };
+
+        document.getElementById('prev-button').onclick = () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        };
+
+        document.getElementById('next-button').onclick = () => {
+            if (currentQuestion < quizData[currentCategory].length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            }
+        };
+
+        // Emergency button functionality
+        document.querySelector('.emergency-button').addEventListener('click', () => {
+            alert('Calling emergency services...\nDialing 1091 - Women\'s Emergency Helpline');
+        });
+
+        // Initialize the quiz
+        loadQuestion();
+        
+    </script>
+    <link rel="stylesheet" href="script.js">
+</body>
+</html> -->

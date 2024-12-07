@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Women's Safety Community Support</title>
+    <!-- <link rel="stylesheet" href="localgroups.css"> -->
+    <!-- <script defer src="localgroups.js"></script> -->
+</head>
+<style>* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and Layout */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f5a623, #f77c9d);
+    color: #333;
+    line-height: 1.6;
+    animation: fadeIn 1s ease-in-out;
+}
+
+header {
+    background: linear-gradient(90deg, #6a1b9a, #ff4f77);
+    padding: 15px 0;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: slideIn 1s ease-in-out;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #ffeb3b;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+header nav ul li a:hover {
+    color: #ffeb3b;
+}
+
+header nav ul li a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Section */
+.section {
+    padding: 50px 20px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    animation: fadeInUp 1s ease-out;
+}
+
+h2, h3 {
+    color: #6a1b9a;
+    margin-bottom: 20px;
+}
+
+.group-options {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.group-option {
+    text-align: center;
+    padding: 25px;
+    background: linear-gradient(135deg, #ff6a00, #ff4081);
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 30%;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+.group-option:hover {
+    transform: translateY(-10px);
+}
+
+button {
+    background: #ffeb3b;
+    color: #6a1b9a;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #ff4081;
+    color: white;
+}
+
+/* Form Section */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+textarea {
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    min-height: 150px;
+    transition: border 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #ff4081;
+    outline: none;
+}
+
+/* Shared Journey Section */
+#journey-list {
+    margin-top: 20px;
+}
+
+.journey-item {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    animation: slideInUp 0.5s ease-out;
+}
+
+.journey-item:hover {
+    transform: translateY(-5px);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 25px;
+    background: linear-gradient(90deg, #ff4081, #6a1b9a);
+    color: white;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+<script>// Function to handle joining groups
+    function joinGroup(groupType) {
+        alert(`You have joined the ${groupType} group!`);
+    }
+    
+    // Handle the journey sharing form submission
+    document.getElementById('journey-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const story = document.getElementById('story').value;
+    
+        if (story.trim()) {
+            addJourney(story);
+            document.getElementById('journey-form').reset();
+        }
+    });
+    
+    // Function to display shared journey
+    function addJourney(story) {
+        const journeyList = document.getElementById('journey-list');
+        const journeyItem = document.createElement('div');
+        journeyItem.classList.add('journey-item');
+        journeyItem.innerHTML = <p>${story}</p>;
+        journeyList.prepend(journeyItem);
+    }
+    </script>
+<body>
+    <header>
+        <div class="logo">Women's Safety Support</div>
+        <nav>
+            <ul>
+                <li><a href="#join">Join a Group</a></li>
+                <li><a href="#share">Share Your Journey</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="join" class="section">
+        <h2>Join a Group</h2>
+        <p>Choose a group based on your interests, career, or life stage:</p>
+        <div class="group-options">
+            <div class="group-option">
+                <h3>Interests</h3>
+                <p>Find a group based on your passions or hobbies.</p>
+                <button onclick="joinGroup('Interests')">Join Interests Group</button>
+            </div>
+            <div class="group-option">
+                <h3>Career</h3>
+                <p>Join a professional network or career support group.</p>
+                <button onclick="joinGroup('Career')">Join Career Group</button>
+            </div>
+            <div class="group-option">
+                <h3>Life Stage</h3>
+                <p>Connect with women going through similar life stages.</p>
+                <button onclick="joinGroup('Life Stage')">Join Life Stage Group</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="share" class="section">
+        <h2>Share Your Journey</h2>
+        <p>We encourage you to share your story and experiences with the community to inspire and support others.</p>
+        <form id="journey-form">
+            <label for="story">Your Journey:</label>
+            <textarea id="story" name="story" placeholder="Share your experience here..." required></textarea>
+            <button type="submit">Share My Journey</button>
+        </form>
+
+        <div id="shared-journies">
+            <h3>Recent Journeys Shared</h3>
+            <div id="journey-list"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Women's Safety Support Community</p>
+    </footer>
+</body>
+</html>

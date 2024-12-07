@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Women's Safety - Nearby Support</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FF6F61, #FF9A8B);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin: 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        section {
+            padding: 50px 0;
+            text-align: center;
+            animation: fadeInSection 2s ease-in-out;
+        }
+
+        @keyframes fadeInSection {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.7);
+            width: 250px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            color: #fff;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card h3 {
+            font-size: 1.6em;
+            margin: 10px 0;
+        }
+
+        .card p {
+            font-size: 1em;
+        }
+
+        .card a {
+            display: block;
+            margin-top: 20px;
+            /* color: #FF9A8B; */
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        /* .card a:hover {
+            color: #FF6F61;
+        } */
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            color: white;
+        }
+
+        .btn {
+            background-color: #FF9A8B;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF6F61;
+        }
+
+        .animated-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.w3schools.com/w3images/fjords.jpg') no-repeat center center fixed;
+            background-size: cover;
+            filter: blur(5px);
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="animated-background"></div>
+    <header>
+        <h1>Women's Safety Support</h1>
+        <p>Access local resources, mentorship, and community support</p>
+    </header>
+
+    <section>
+        <h2>Nearby Support Services</h2>
+        <div class="container">
+            <div class="card">
+                <h3>Local Helplines</h3>
+                <p>Find emergency contacts and support numbers in your area.</p>
+                <a href="#" class="btn">View Contacts</a>
+            </div>
+            <div class="card">
+                <h3>Mentorship Opportunities</h3>
+                <p>Connect with experienced mentors who can guide and support you.</p>
+                <a href="#" class="btn">Find a Mentor</a>
+            </div>
+            <div class="card">
+                <h3>Support Groups</h3>
+                <p>Join local or online groups for emotional and community support.</p>
+                <a href="#" class="btn">Join Now</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 Women's Safety Project | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling effect on button click (optional)
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function () {
+                alert('This link would take you to further resources.');
+            });
+        });
+    </script>
+</body>
+
+</html>

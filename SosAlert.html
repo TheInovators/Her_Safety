@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Women Safety App</title>
+  <style>
+    
+    body {
+      font-family: 'Arial', sans-serif;
+      /* background-color: #f7f7f7; */
+      background-color: black;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('https://via.placeholder.com/1920x1080'); /* Background Image */
+      background-size: cover;
+      background-position: center;
+      /* color: #fff; */
+    }
+
+    #container {
+      background: linear-gradient(135deg, #ff5f6d, #ffc371);
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      color: #fff;
+      background-color: #ec3e3e;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px 0;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      width: 80%;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(1);
+    }
+
+    input[type="email"] {
+      padding: 12px 20px;
+      font-size: 16px;
+      width: 80%;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      outline: none;
+      background-color: #f9f9f9;
+      color: #333;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="email"]:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    #contactList {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      text-align: left;
+      color: #333;
+    }
+
+    #contactList li {
+      background-color: #f9f9f9;
+      padding: 12px;
+      margin: 5px 0;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    #contactList li:hover {
+      background-color: #e1e1e1;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      font-size: 16px;
+    }
+
+    @media (max-width: 600px) {
+      #container {
+        width: 90%;
+        padding: 20px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+      }
+
+      input[type="email"] {
+        width: 100%;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Advanced Women Safety App</h1>
+    <input type="email" id="contactInput" placeholder="Enter Emergency Email Address" />
+    <button id="addContactButton">Add Emergency Email</button>
+    <button id="sosButton">Send SOS</button>
+
+    <ul id="contactList"></ul>
+
+    <div id="toast"></div>
+  </div>
+
+  <script>
+    // Load contacts from localStorage or initialize empty array if none
+    let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+
+    const contactInput = document.getElementById('contactInput');
+    const addContactButton = document.getElementById('addContactButton');
+    const sosButton = document.getElementById('sosButton');
+    const contactList = document.getElementById('contactList');
+    const toast = document.getElementById('toast');
+
+    // Helper function to show toast messages
+    function showToast(message) {
+      toast.textContent = message;
+      toast.style.opacity = 1;
+      setTimeout(() => (toast.style.opacity = 0), 3000);
+    }
+
+    // Validate email address format
+    function isValidEmail(email) {
+      const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return regex.test(email);
+    }
+
+    // Show contacts in the UI
+    function showContacts() {
+      contactList.innerHTML = ''; // Clear the list first
+      if (contacts.length === 0) {
+        showToast('No emergency contacts added.');
+        return;
+      }
+
+      contacts.forEach((contact, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${contact}`;
+        contactList.appendChild(li);
+      });
+    }
+
+    // Add Emergency Email with validation
+    function addEmergencyEmail() {
+      const email = contactInput.value.trim();
+      if (email) {
+        if (isValidEmail(email)) {
+          if (!contacts.includes(email)) {
+            contacts.push(email);
+            localStorage.setItem('contacts', JSON.stringify(contacts));
+            showContacts();
+            showToast('Emergency email added successfully!');
+          } else {
+            showToast('This email is already added.');
+          }
+        } else {
+          showToast('Please enter a valid email address.');
+        }
+      } else {
+        showToast('Please enter a valid email address.');
+      }
+      contactInput.value = ''; // Clear input field
+    }
+
+    // Fetch Current Location
+    function fetchLocation(callback) {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            callback({ latitude, longitude });
+          },
+          () => {
+            showToast('Unable to fetch location. Please enable location services.');
+            callback(null);
+          }
+        );
+      } else {
+        showToast('Geolocation is not supported by this browser.');
+        callback(null);
+      }
+    }
+
+    // Send SOS Alert (Simulate email with Google Maps link)
+    function sendSOSAlert() {
+      if (contacts.length === 0) {
+        showToast('No emergency contacts available. Please add one.');
+        return;
+      }
+
+      fetchLocation((location) => {
+        if (!location) return;
+
+        const mapLink = `https://www.google.com/maps?q=${location.latitude},${location.longitude}`;
+        const firstContact = contacts[0]; // Send to the first contact for simplicity
+        const subject = 'SOS Alert! I need help';
+        const body = `SOS Alert! I need help. My location: ${mapLink}`;
+
+        // Simulate sending an email by opening the default email client
+        const mailtoLink = `mailto:${firstContact}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink; // This will open the default email client
+
+        // After sending the SOS, remove the contact from the list and update localStorage
+        contacts.shift(); // Remove the first contact
+        localStorage.setItem('contacts', JSON.stringify(contacts)); // Update localStorage with the new contact list
+        showContacts(); // Update the UI
+        showToast('SOS sent, emergency email removed.');
+      });
+    }
+
+    // Event Listeners
+    addContactButton.addEventListener('click', addEmergencyEmail);
+    sosButton.addEventListener('click', sendSOSAlert);
+
+    // Initial call to show contacts if any exist
+    showContacts();
+  </script>
+</body>
+</html>

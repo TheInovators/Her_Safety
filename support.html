@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Community Support</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #8B5CF6, #EC4899);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 0;
+        }
+
+        .hero {
+          
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #FF7A00, #FF2D00);
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            animation: slideIn 1.5s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #f2f2f2;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+        .fea{
+            text-decoration: none;
+        }
+        .features, .events, .stats {
+            margin-bottom: 60px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        .feature-card, .event-card, .stat-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width:90%;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover, .event-card:hover, .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card h3, .event-card h3, .stat-card h3 {
+            font-size: 1.75rem;
+            margin-bottom: 15px;
+            color: #6a3fb6;
+        }
+
+        .feature-card p, .event-card p, .stat-card p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .stats {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .stat-card {
+            width: 22%;
+            font-size: 1.25rem;
+        }
+
+        /* Hover Effects */
+        .feature-card::before, .event-card::before, .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .feature-card:hover::before, .event-card:hover::before, .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .events {
+            flex-direction: column;
+        }
+
+        .event-card {
+            margin-bottom: 15px;
+        }
+
+        .button {
+            background-color: #FF2D00;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #FF7A00;
+        }
+        .features{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+           
+        }
+
+        @media (max-width: 768px) {
+            .feature-card, .event-card, .stat-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 style="color: white;">Community Support</h1>
+            <p>Connect with other women in your area and build lasting relationships</p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <a class="fea" href="localgrp.html">
+            <div class="feature-card">
+                <h3>Local Groups</h3>
+                <p>Join groups based on your interests, career, or life stage. Meet women who share your journey.</p>
+            </div>
+        </a>
+            <a class="fea" href="nearby.html">
+            <div class="feature-card">
+                <h3>Nearby Support</h3>
+                <p>Access local resources, mentorship opportunities, and support services in your community.</p>
+            </div>
+        </a>
+        </section>
+
+        <!-- Events Section -->
+        <section class="events">
+            <h2>Upcoming Events</h2>
+            <div class="event-card">
+                <h3>Coffee & Conversation</h3>
+                <p>Every Tuesday at Local Cafe. 12 attendees. Social event.</p>
+                <button class="button">Join Event</button>
+            </div>
+            <div class="event-card">
+                <h3>Business Networking</h3>
+                <p>First Thursday at Community Center. 25 attendees. Career-focused event.</p>
+                <button class="button">Join Event</button>
+            </div>
+            <div class="event-card">
+                <h3>Wellness Workshop</h3>
+                <p>Monthly at City Park. 15 attendees. Health event.</p>
+                <button class="button">Join Event</button>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="stat-card">
+                <h3>2,000+</h3>
+                <p>Members</p>
+            </div>
+            <div class="stat-card">
+                <h3>50+</h3>
+                <p>Cities</p>
+            </div>
+            <div class="stat-card">
+                <h3>100+</h3>
+                <p>Events/Month</p>
+            </div>
+            <div class="stat-card">
+                <h3>5,000+</h3>
+                <p>Connections</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Animations and Interactions can be added here if needed
+    </script>
+
+</body>
+</html>

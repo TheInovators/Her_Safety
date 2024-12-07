@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Hersafety Reels </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .reel-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            width: 100%;
+            scrollbar-width: none;
+        }
+
+        .reel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .video {
+            position: relative;
+            flex: 0 0 100%;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video video {
+            width: auto;           /* Maintain the video’s original aspect ratio */
+            height: 100%;          /* Take full height of the viewport */
+            object-fit: contain;   /* Ensure the video is contained within the viewport */
+            max-width: 100%;       /* Prevent overflow horizontally */
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .video-controls button {
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+
+        .video-controls button:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .social-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .social-controls button {
+            /* background: rgba(255, 255, 255, 0.6); */
+            border: none;
+            padding: 10px;
+            color: white;
+            font-size: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* .social-controls button:hover {
+            background: rgba(255, 255, 255, 0.8);
+        } */
+
+        .video-info {
+            position: absolute;
+            bottom: 80px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        .video-info h4, .video-info p {
+            margin: 0;
+        }
+
+        .nav-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .nav-dot.active {
+            background-color: white;
+        }
+
+
+        .social-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.social-controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* background-color: #f0f0f0; */
+    transition: background-color 0.3s ease;
+}
+
+/* .social-controls button:hover {
+    background-color: #e0e0e0;
+} */
+
+.social-controls button:active {
+    transform: scale(0.95);
+}
+
+    </style>
+</head>
+<body>
+    <div class="reel-container" id="reel">
+        <!-- Video 1 -->
+        <div class="video">
+            <video src="Learn self defence techniques.mp4" muted loop preload="auto" id="video1" height="100vh"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>Protect Yourself</h4>
+                <p>How to prevent yourself from critical situation</p>
+            </div>
+        </div>
+
+        <!-- Video 2 -->
+
+
+        <div class="video">
+            <video src="a.mp4" muted loop preload="auto" id="video3"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>Defensive technique</h4>
+                <p>Defense to someone who grab your hair from behind.</p>
+            </div>
+        </div>
+
+
+
+
+        <div class="video">
+            <video src="b.mp4" muted loop preload="auto" id="video3"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>Defensive technique</h4>
+                <p>Learn defensive technique</p>
+            </div>
+        </div>
+
+
+
+      
+
+
+
+
+        <div class="video">
+            <video src="d.mp4" muted loop preload="auto" id="video3"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>Emergency contact for women safety</h4>
+                <p>Women helpline number: 1090</p>
+            </div>
+        </div>
+
+
+
+        <div class="video">
+            <video src="e.mp4" muted loop preload="auto" id="video3"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>Can technology ensure women safety</h4>
+                <p></p>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="video">
+            <video src="f.mp4" muted loop preload="auto" id="video3"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>How to self defense</h4>
+                <p></p>
+            </div>
+        </div>
+
+
+
+        <div class="video">
+            <video src="g.mp4" muted loop preload="auto" id="video3"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>An important technique for her safety</h4>
+                <p></p>
+            </div>
+        </div>
+        <!-- Video 3 -->
+        <div class="video">
+            <video src="specialtechnic.mp4" muted loop preload="auto" id="video3"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>Be defensive</h4>
+                <p></p>
+            </div>
+        </div>
+
+        <!-- Video 4 -->
+        <div class="video">
+            <video src="videoplayback (1).mp4" muted loop preload="auto" id="video4"></video>
+            <div class="video-controls">
+                <icon class="play-pause">▶</icon>
+                <icon class="volume">🔊</icon>
+            </div>
+            <div class="social-controls">
+                <icon class="like">❤</icon>
+                <icon class="comment">💬</icon>
+                <icon class="share">🔗</icon>
+            </div>
+            <div class="video-info">
+                <h4>Safety tips for girls</h4>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-indicator" id="navIndicator"></div>
+
+    <script>
+        const reelContainer = document.getElementById('reel');
+        const videos = document.querySelectorAll('.video video');
+        const navIndicator = document.getElementById('navIndicator');
+
+        // Create navigation dots
+        videos.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('nav-dot');
+            dot.addEventListener('click', () => {
+                videos[index].closest('.video').scrollIntoView({ behavior: 'smooth' });
+            });
+            navIndicator.appendChild(dot);
+        });
+
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        // Intersection Observer to detect when a video is in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                const videoContainer = video.closest('.video');
+                const playPauseBtn = videoContainer.querySelector('.play-pause');
+                const volumeBtn = videoContainer.querySelector('.volume');
+
+                // Update navigation dots
+                const index = Array.from(videos).indexOf(video);
+                navDots.forEach(dot => dot.classList.remove('active'));
+                navDots[index].classList.add('active');
+
+                // Video play/pause logic
+                if (entry.isIntersecting) {
+                    video.muted = false; // Ensure sound is on
+                    video.play().catch(error => {
+                        console.error('Error playing video:', error);
+                    });
+                    playPauseBtn.textContent = '⏸'; // Change to pause icon
+                } else {
+                    video.pause();
+                    playPauseBtn.textContent = '▶'; // Change to play icon
+                }
+            });
+        }, { threshold: 0.75 }); // Trigger when 75% of the video is visible
+
+        // Add event listeners to all videos
+        videos.forEach(video => {
+            const videoContainer = video.closest('.video');
+            const playPauseBtn = videoContainer.querySelector('.play-pause');
+            const volumeBtn = videoContainer.querySelector('.volume');
+
+            // Play/Pause button
+            playPauseBtn.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    playPauseBtn.textContent = '⏸';
+                } else {
+                    video.pause();
+                    playPauseBtn.textContent = '▶';
+                }
+            });
+
+            // Volume button
+            volumeBtn.addEventListener('click', () => {
+                video.muted = !video.muted;
+                volumeBtn.textContent = video.muted ? '🔇' : '🔊';
+            });
+
+            observer.observe(video);
+        });
+
+        // Add touch/swipe support
+        let touchStartY = 0;
+        reelContainer.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        reelContainer.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const diffY = touchStartY - touchEndY;
+
+            if (Math.abs(diffY) > 50) {
+                // Significant vertical swipe detected
+                const currentVideoIndex = Array.from(videos).findIndex(v => 
+                    v.closest('.video').getBoundingClientRect().top >= 0
+                );
+
+                if (diffY > 0 && currentVideoIndex < videos.length - 1) {
+                    // Swipe up
+                    videos[currentVideoIndex + 1].closest('.video').scrollIntoView({ behavior: 'smooth' });
+                } else if (diffY < 0 && currentVideoIndex > 0) {
+                    // Swipe down
+                    videos[currentVideoIndex - 1].closest('.video').scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+        // Handle Like button
+        const likeButton = document.querySelector(".like");
+        likeButton.addEventListener("click", () => {
+            if (likeButton.classList.contains("liked")) {
+                likeButton.classList.remove("liked");
+                likeButton.textContent = "❤ Like"; // Reset text
+            } else {
+                likeButton.classList.add("liked");
+                likeButton.textContent = "💖 Liked!"; // Change to indicate liked
+            }
+        });
+
+        // Handle Comment button
+        const commentButton = document.querySelector(".comment");
+        commentButton.addEventListener("click", () => {
+            const commentText = prompt("Enter your comment:");
+            if (commentText) {
+                alert(`Comment posted: "${commentText}"`);
+            }
+        });
+
+        // Handle Share button
+        const shareButton = document.querySelector(".share");
+        shareButton.addEventListener("click", async () => {
+            const shareData = {
+                title: "Check this out!",
+                text: "I found something interesting.",
+                url: window.location.href, // Current page URL
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                    alert("Shared successfully!");
+                } catch (error) {
+                    console.error("Error sharing:", error);
+                }
+            } else {
+                // Fallback for browsers without the Web Share API
+                navigator.clipboard.writeText(shareData.url).then(() => {
+                    alert("Link copied to clipboard!");
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>

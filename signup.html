@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Women Safety & Empowerment</title>
+    <style>
+        /* Basic Reset and Layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff5f6d, #ffc371);
+            overflow: hidden;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Container for Sign Up Form */
+        .signup-container {
+            width: 350px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1.5s ease forwards;
+            opacity: 0;
+        }
+
+        .signup-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 10px;
+        }
+
+        .signup-subtitle {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        /* Input Fields Styling */
+        .signup-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .signup-input:focus {
+            border-color: #ff5f6d;
+            box-shadow: 0 0 8px rgba(255, 95, 109, 0.4);
+        }
+
+        /* Sign Up Button Styling */
+        .signup-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff5f6d;
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .signup-button:hover {
+            background-color: #e05656;
+            transform: scale(1.05);
+        }
+
+        /* Links for Terms of Service and Login */
+        .signup-links {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .signup-links a {
+            color: #ff5f6d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .signup-links a:hover {
+            color: #e05656;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <div class="signup-title">Women Safety & Empowerment</div>
+        <div class="signup-subtitle">Create your account to access safety resources</div>
+        
+        <form onsubmit="handleSignup(event)">
+            <input type="text" id="fullName" class="signup-input" placeholder="Full Name" required>
+            <input type="email" id="email" class="signup-input" placeholder="Email" required>
+            <input type="password" id="password" class="signup-input" placeholder="Password" required>
+            <input type="password" id="confirmPassword" class="signup-input" placeholder="Confirm Password" required>
+            <button type="submit" class="signup-button">Sign Up</button>
+        </form>
+
+        <div class="signup-links">
+            <span>Already have an account?</span> <a href="login.html">Login here</a><br>
+            <span>By signing up, you agree to our <a href="termsndcon.html">Terms of Service</a> and <a href="termsndcon.html">Privacy Policy</a>.</span>
+        </div>
+    </div>
+
+    <script>
+        // function handleSignup(event) {
+        //     event.preventDefault(); // Prevent form from submitting normally
+        //     const fullName = document.getElementById('fullName').value;
+        //     const email = document.getElementById('email').value;
+        //     const password = document.getElementById('password').value;
+        //     const confirmPassword = document.getElementById('confirmPassword').value;
+
+        //     // Basic validation
+        //     if (fullName && email && password && confirmPassword) {
+        //         if (password === confirmPassword) {
+        //             alert("Account created successfully!");
+        //             // Add actual sign-up logic here (e.g., sending data to the server)
+        //         } else {
+        //             alert("Passwords do not match.");
+        //         }
+        //     } else {
+        //         alert("Please fill in all fields.");
+        //     }
+        // }
+        async function handleSignup(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Basic validation
+            if (fullName && email && password && confirmPassword) {
+                if (password === confirmPassword) {
+                    try {
+                        const response = await fetch('http://localhost:5000/api/register', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                fullName,
+                                email,
+                                password,
+                            }),
+                        });
+
+                        const result = await response.json();
+                        
+                        if (response.ok) {
+                            alert("Account created successfully!");
+                            // Redirect or take further actions here (e.g., to login page)
+                            window.location.href = "login.html";
+                        } else {
+                            alert(result.message || "Something went wrong. Please try again.");
+                        }
+                    } catch (error) {
+                        alert("Network error. Please try again.");
+                    }
+                } else {
+                    alert("Passwords do not match.");
+                }
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+    </script>
+
+</body>
+</html>

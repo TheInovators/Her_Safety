@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeTrack - Advanced</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: black;
+        }
+
+        #map {
+            height: 70vh;
+            width: 100%;
+        }
+
+        .control-panel {
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button-primary {
+            background-color: #007bff;
+        }
+
+        .button-danger {
+            background-color: #dc3545;
+        }
+
+        .button-secondary {
+            background-color: #6c757d;
+        }
+
+        .button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .location-history {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .location-history p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .success {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .tracking-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .map-info {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .map-info span {
+            font-weight: bold;
+        }
+
+        .map-header {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .tracking-footer {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="control-panel">
+        <h2>SafeTrack Control Panel</h2>
+        <div class="tracking-container">
+            <h3 class="map-header">Track Your Location</h3>
+            <button id="startTracking" class="button button-primary">Start Tracking</button>
+            <button id="stopTracking" class="button button-secondary" disabled>Stop Tracking</button>
+            <button id="sendSOS" class="button button-danger" disabled>Send SOS</button>
+            <div id="statusMessage" class="success"></div>
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;"></div>
+
+            <h3>Location History</h3>
+            <div class="location-history" id="locationHistory"></div>
+            <div class="map-info">
+                <p>Current Location: <span id="currentLocation">N/A</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 SafeTrack. All rights reserved.
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script>
+        let map, marker, watchID, currentCoords = null, locationHistory = [];
+        let loadingSpinner = document.getElementById('loadingSpinner');
+        
+        // Initialize the map with New Delhi coordinates
+        function initializeMap() {
+            map = L.map('map').setView([28.6139, 77.2090], 13); // New Delhi Coordinates
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            marker = L.marker([28.6139, 77.2090]).addTo(map).bindPopup('Initial location').openPopup();
+        }
+
+        // Update the map with new coordinates
+        function updateMap(lat, lng) {
+            currentCoords = { lat, lng };
+            if (!marker) {
+                marker = L.marker([lat, lng]).addTo(map).bindPopup('You are here').openPopup();
+            } else {
+                marker.setLatLng([lat, lng]);
+            }
+            map.setView([lat, lng], 13);
+
+            document.getElementById('currentLocation').textContent = `Lat: ${lat}, Lng: ${lng};
+            addToHistory(lat, lng)`;
+        }
+
+        // Add the location to the history
+        function addToHistory(lat, lng) {
+            const timestamp = new Date().toLocaleString();
+            const locationEntry = `Latitude: ${lat}, Longitude: ${lng} at ${timestamp}`;
+            locationHistory.push(locationEntry);
+
+            const historyDiv = document.getElementById('locationHistory');
+            const newEntry = document.createElement('p');
+            newEntry.textContent = locationEntry;
+            historyDiv.appendChild(newEntry);
+
+            historyDiv.scrollTop = historyDiv.scrollHeight;
+        }
+
+        // Start geolocation tracking
+        function startTracking() {
+            if (!navigator.geolocation) {
+                showMessage('Geolocation is not supported by your browser.', 'error');
+                return;
+            }
+
+            watchID = navigator.geolocation.watchPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    updateMap(latitude, longitude);
+                    showMessage('Tracking your location...', 'success');
+                },
+                (error) => {
+                    showMessage('Error fetching location: ' + error.message, 'error');
+                },
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 0
+                }
+            );
+
+            document.getElementById('startTracking').disabled = true;
+            document.getElementById('stopTracking').disabled = false;
+            document.getElementById('sendSOS').disabled = false;
+            showLoading(true);
+        }
+
+        // Stop geolocation tracking
+        function stopTracking() {
+            if (watchID !== null) {
+                navigator.geolocation.clearWatch(watchID);
+                watchID = null;
+                showMessage('Location tracking stopped.', 'success');
+            }
+
+            document.getElementById('startTracking').disabled = false;
+            document.getElementById('stopTracking').disabled = true;
+            document.getElementById('sendSOS').disabled = true;
+            showLoading(false);
+        }
+
+        // Send SOS email with the current location
+        function sendSOS() {
+            if (!currentCoords) {
+                showMessage('No location data available to send.', 'error');
+                return;
+            }
+
+            const email = prompt('Enter the recipient\'s email address:', 'example@example.com');
+            if (!email) return;
+
+            const subject = encodeURIComponent('Emergency SOS Alert!');
+            const body = encodeURIComponent(
+                `Help needed! Current location: 
+                Latitude: ${currentCoords.lat}, Longitude: ${currentCoords.lng}
+                Map link: https://www.google.com/maps?q=${currentCoords.lat},${currentCoords.lng}`
+            );
+
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+
+        // Show status messages
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('statusMessage');
+            messageDiv.textContent = message;
+            messageDiv.className = type === 'error' ? 'error' : 'success';
+        }
+
+        // Show loading spinner
+        function showLoading(show) {
+            if (show) {
+                loadingSpinner.style.display = 'block';
+            } else {
+                loadingSpinner.style.display = 'none';
+            }
+        }
+
+        // Attach event listeners
+        document.getElementById('startTracking').addEventListener('click', startTracking);
+        document.getElementById('stopTracking').addEventListener('click', stopTracking);
+        document.getElementById('sendSOS').addEventListener('click', sendSOS);
+
+        // Initialize the map when the page loads
+        initializeMap();
+    </script>
+</body>
+</html>

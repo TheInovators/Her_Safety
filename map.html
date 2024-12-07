@@ -1,0 +1,249 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Map</title>
+    <!-- Leaflet CSS -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #safety-map {
+            height: 500px; /* Set the height of the map */
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Safety Map</h1>
+    <div id="safety-map"></div> <!-- Map container -->
+
+    <!-- Leaflet JS -->
+    <!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map centered on the specified coordinates
+        const map = L.map('safety-map').setView([28.6139, 77.2090], 13);
+
+        // Add the OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Define the safety zones with coordinates, radius, and risk levels
+        const safeZones = [
+            { coord: [28.6139, 77.2090], radius: 1000, risk: 'safe' },
+            { coord: [28.6239, 77.2190], radius: 800, risk: 'moderate' },
+            { coord: [28.6039, 77.1990], radius: 600, risk: 'caution' }
+        ];
+
+        // Loop through each safety zone to add circles on the map
+        safeZones.forEach(zone => {
+            const color = zone.risk === 'safe' ? '#4CAF50' : 
+                         zone.risk === 'moderate' ? '#FFC107' : '#f44336';
+            
+            L.circle(zone.coord, {
+                radius: zone.radius,
+                color: color,
+                fillColor: color,
+                fillOpacity: 0.2
+            }).addTo(map);
+        });
+    </script>
+</body>
+</html> --> --> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women's Safety Heat Map - India</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .header {
+            background-color: #d9534f;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        #safety-map {
+            height: 600px;
+            margin: 20px auto;
+            width: 95%;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            line-height: 18px;
+        }
+
+        .legend h4 {
+            margin: 0 0 5px;
+            font-size: 16px;
+        }
+
+        .legend i {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Women's Safety Heat Map - India</h1>
+        <p>Highlighting Danger Areas and Risk Levels</p>
+    </div>
+
+    <div id="safety-map"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script>
+        const map = L.map('safety-map').setView([23.5937, 78.9629], 5);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Define danger areas with their respective risk levels
+        const dangerAreas = {
+            "Mumbai": [
+                { name: "Dharavi", coord: [19.0420, 72.8554], level: "High" },
+                { name: "Andheri", coord: [19.1197, 72.8464], level: "Moderate" },
+                { name: "Kurla", coord: [19.0651, 72.8805], level: "High" },
+                { name: "Colaba", coord: [18.9067, 72.8147], level: "Low" }
+            ],
+            "Delhi": [
+                { name: "North Delhi", coord: [28.7041, 77.1025], level: "High" },
+                { name: "South Delhi", coord: [28.4850, 77.1872], level: "Moderate" },
+                { name: "Paharganj", coord: [28.6410, 77.2117], level: "High" },
+                { name: "Karol Bagh", coord: [28.6538, 77.1925], level: "Moderate" }
+            ],
+            "Bangalore": [
+                { name: "Majestic", coord: [12.9770, 77.5713], level: "High" },
+                { name: "Whitefield", coord: [12.9698, 77.7499], level: "Moderate" },
+                { name: "Koramangala", coord: [12.9352, 77.6245], level: "Moderate" },
+                { name: "MG Road", coord: [12.9765, 77.6012], level: "Low" }
+            ],
+            "Mumbai": [
+        { name: "Dharavi", coord: [19.0420, 72.8554], level: "High" },
+        { name: "Andheri", coord: [19.1197, 72.8464], level: "Moderate" },
+        { name: "Kurla", coord: [19.0651, 72.8805], level: "High" },
+        { name: "Colaba", coord: [18.9067, 72.8147], level: "Low" }
+    ],
+    "Delhi": [
+    { name: "Paharganj", coord: [28.6410, 77.2117], level: "High" },
+    { name: "Karol Bagh", coord: [28.6538, 77.1925], level: "High" },
+    { name: "Laxmi Nagar", coord: [28.6297, 77.2773], level: "High" },
+    { name: "Shahdara", coord: [28.6726, 77.2898], level: "High" },
+    { name: "Chandni Chowk", coord: [28.6562, 77.2301], level: "High" },
+    { name: "Nizamuddin", coord: [28.5921, 77.2492], level: "High" },
+    { name: "Jahangirpuri", coord: [28.7293, 77.1573], level: "High" },
+    { name: "Munirka", coord: [28.5586, 77.1781], level: "High" },
+    { name: "Khanpur", coord: [28.5153, 77.2245], level: "High" },
+    { name: "Dwarka", coord: [28.6084, 77.0405], level: "Moderate" },
+    { name: "Anand Vihar", coord: [28.6465, 77.3152], level: "Moderate" },
+    { name: "Rohini", coord: [28.7409, 77.1279], level: "Moderate" },
+    { name: "Vikaspuri", coord: [28.6216, 77.0709], level: "Moderate" },
+    { name: "Tughlakabad", coord: [28.5294, 77.2525], level: "Moderate" },
+    { name: "Okhla", coord: [28.5519, 77.2864], level: "Moderate" }
+],
+    "Bangalore": [
+        { name: "Majestic", coord: [12.9770, 77.5713], level: "High" },
+        { name: "Whitefield", coord: [12.9698, 77.7499], level: "Moderate" },
+        { name: "Koramangala", coord: [12.9352, 77.6245], level: "Moderate" },
+        { name: "MG Road", coord: [12.9765, 77.6012], level: "Low" }
+    ],
+    "Kolkata": [
+        { name: "Park Street", coord: [22.5453, 88.3639], level: "Moderate" },
+        { name: "Howrah", coord: [22.5892, 88.3103], level: "High" },
+        { name: "Sealdah", coord: [22.5664, 88.3685], level: "High" },
+        { name: "Salt Lake", coord: [22.5867, 88.4177], level: "Low" }
+    ],
+    "Chennai": [
+        { name: "George Town", coord: [13.0954, 80.2814], level: "High" },
+        { name: "T. Nagar", coord: [13.0417, 80.2338], level: "Moderate" },
+        { name: "Velachery", coord: [12.9822, 80.2202], level: "Moderate" },
+        { name: "Adyar", coord: [13.0067, 80.2574], level: "Low" }
+    ],
+    "Hyderabad": [
+        { name: "Old City", coord: [17.3616, 78.4747], level: "High" },
+        { name: "Charminar", coord: [17.3616, 78.4747], level: "High" },
+        { name: "Banjara Hills", coord: [17.4165, 78.4481], level: "Moderate" },
+        { name: "Hitech City", coord: [17.4504, 78.3808], level: "Low" }
+    ],
+    "Pune": [
+        { name: "Khadki", coord: [18.5636, 73.8440], level: "High" },
+        { name: "Shivaji Nagar", coord: [18.5308, 73.8476], level: "Moderate" },
+        { name: "Swargate", coord: [18.5024, 73.8673], level: "Moderate" },
+        { name: "Hinjewadi", coord: [18.5912, 73.7385], level: "Low" }
+    ],
+    "Ahmedabad": [
+        { name: "Old Ahmedabad", coord: [23.0305, 72.5842], level: "High" },
+        { name: "Maninagar", coord: [22.9905, 72.6080], level: "Moderate" },
+        { name: "Navrangpura", coord: [23.0405, 72.5559], level: "Low" },
+        { name: "Satellite", coord: [23.0305, 72.5115], level: "Low" }
+    ],
+    "Jaipur": [
+        { name: "Walled City", coord: [26.9245, 75.8235], level: "High" },
+        { name: "Mansarovar", coord: [26.8505, 75.7930], level: "Moderate" },
+        { name: "Malviya Nagar", coord: [26.8640, 75.8020], level: "Low" },
+        { name: "Vaishali Nagar", coord: [26.9162, 75.7528], level: "Low" }
+    ],
+    "Lucknow": [
+        { name: "Hazratganj", coord: [26.8480, 80.9462], level: "Moderate" },
+        { name: "Aminabad", coord: [26.8516, 80.9328], level: "High" },
+        { name: "Gomti Nagar", coord: [26.8565, 81.0103], level: "Low" },
+        { name: "Charbagh", coord: [26.8318, 80.9199], level: "High" }
+    ]
+        };
+
+        // Add danger zones to the map
+        Object.keys(dangerAreas).forEach(city => {
+            dangerAreas[city].forEach(area => {
+                const color = area.level === "High" ? "red" :
+                              area.level === "Moderate" ? "orange" : "green";
+
+                L.circle(area.coord, {
+                    radius: 1000,
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.5
+                })
+                .addTo(map)
+                .bindPopup(`<strong>${city}</strong><br>${area.name}<br>Risk Level: ${area.level}`);
+            });
+        });
+
+        // Add a legend to the map
+        const legend = L.control({ position: "bottomright" });
+
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create("div", "legend");
+            div.innerHTML = `
+                <h4>Risk Levels</h4>
+                <i style="background: red;"></i> High Risk<br>
+                <i style="background: orange;"></i> Moderate Risk<br>
+                <i style="background: green;"></i> Low Risk<br>
+            `;
+            return div;
+        };
+
+        legend.addTo(map);
+    </script>
+</body>
+</html>
